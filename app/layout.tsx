@@ -1,41 +1,60 @@
-
 import type { ReactNode } from 'react';
 
+// Объявление метаданных для страницы
 export const metadata = {
-    title: 'Приложение Погоды',
-    description: 'Узнавайте погоду в любом городе!'
+    title: 'Приложение Погоды', // Заголовок страницы
+    description: 'Узнавайте погоду в любом городе!' // Описание страницы
 };
 
+// Определение корневого компонента макета страницы
 export default function RootLayout({
-    children,
+    children, // Дочерние элементы, которые будут отображаться внутри макета
 }: {
-    children: ReactNode;
+    children: ReactNode; // Типизация дочерних элементов
 }) {
     return (
-        <html lang="ru">
+        <html lang="ru"> {/* Устанавливаем язык страницы как русский */}
 
-            <body style={{ margin: 0,padding: 0,fontFamily: 'Arial, sans-serif' }}>
+            <body 
+                style={{ 
+                    margin: 0, // Убираем отступы у body
+                    padding: 0, // Убираем поля у body
+                    fontFamily: 'Arial, sans-serif', // Устанавливаем шрифт текста
+                    backgroundColor: 'MintCream', // Цвет фона страницы
+                    color: 'BLACK' // Цвет текста на странице
+                }}
+            >
 
-                <header style={{ backgroundColor: '#0070f3',
-                    color: 'white',
-                    padding: '10px 20px' }}>
-
-                    <h1 style={{ margin: 0 }}>Приложение Погоды</h1>
-
+                {/* Заголовок страницы */}
+                <header 
+                    style={{ 
+                        backgroundColor: '#0070f3', // Синий цвет фона заголовка
+                        color: 'white', // Белый цвет текста
+                        padding: '10px 20px' // Отступы внутри заголовка
+                    }}
+                >
+                    <h1 style={{ margin: 0 }}>Приложение Погоды</h1> {/* Название приложения */}
                 </header>
 
-                <main style={{ padding: '20px' }}>{children}</main>
+                {/* Основной контент страницы */}
+                <main style={{ padding: '20px' }}> {/* Добавляем отступы для основного содержимого */}
+                    {children} {/* Отображаем переданные дочерние элементы */}
+                </main>
 
-                <footer style={{
-                    position: 'fixed',
-                    bottom: 0,
-                    left: 0,
-                    width: '100%',
-                    textAlign: 'center',
-                    padding: '10px 0',
-                    backgroundColor: '#f1f1f1',
-                    }}>
-                    <p>© 2025 Приложение Погоды. Все права защищены.</p>
+                {/* Подвал страницы */}
+                <footer 
+                    style={{
+                        position: 'fixed', // Фиксируем подвал внизу страницы
+                        bottom: 0, // Располагаем подвал у нижнего края окна
+                        left: 0, // Привязываем подвал к левому краю окна
+                        width: '100%', // Ширина подвала равна ширине окна
+                        textAlign: 'center', // Текст выравнивается по центру
+                        padding: '0px', // Убираем отступы внутри подвала
+                        backgroundColor: 'LightGray', // Светло-серый цвет фона подвала
+                        color: 'black' // Черный цвет текста подвала
+                    }}
+                >
+                    <p>© 2025 Приложение Погоды. Все права защищены.</p> {/* Текст в подвале */}
                 </footer>
 
             </body>
