@@ -16,7 +16,7 @@
 # next.js
 /.next/
 /out/
-
+frontend/.next
 # production
 /build
 
@@ -41,3 +41,11 @@ next-env.d.ts
 
 #backend
 .venv
+
+.venv
+.next
+node_modules
+__pycache__
+frontend/.next
+backend/.venv
+backend/__pycache__

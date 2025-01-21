@@ -1,0 +1,16 @@
+# Use Node.js as a base image
+FROM node:18
+# Set the working directory
+WORKDIR /app
+# Copy application files
+COPY ./frontend /app
+# Install dependencies
+RUN yarn install
+COPY ./frontend /app
+RUN yarn build
+
+# Expose the Next.js port
+EXPOSE 3000
+
+# Запустите приложение
+CMD ["yarn", "start"]

@@ -10,7 +10,7 @@ BASE_URL = "http://dataservice.accuweather.com"
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["10.20.0.1:3000"],  # URL вашего Next.js
+    allow_origins=["http://localhost:3000"],  # URL вашего Next.js
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
