@@ -14,7 +14,7 @@ export async function GET(request: Request) {
 
     try {
         // Отправляем запрос к API для получения данных о погоде
-        const response = await fetch(`http://127.0.0.1:8000/weather?city=${city}`); // Подставляем название города в URL
+        const response = await fetch(`http://backend:8000/weather?city=${city}`); // Подставляем название города в URL
 
         // Проверяем успешность ответа
         if (!response.ok) {
