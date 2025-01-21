@@ -4,13 +4,13 @@ import requests
 
 app = FastAPI()
 
-# Ваш ключ API AccuWeather
-API_KEY = "1OW5pCs0doJ9CJ0pX7JmEiElmdDcDDTF"
-BASE_URL = "http://dataservice.accuweather.com"
+# Ваш ключ API OpenWeatherMap
+API_KEY = "4f14c3e6f5db34ec1757665f8e40e33c"
+BASE_URL = "https://api.openweathermap.org/data/2.5/weather"
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000"],  # URL вашего Next.js
+    allow_origins=["http://frontend:3000"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -19,31 +19,38 @@ app.add_middleware(
 @app.get("/weather")
 async def get_weather(city: str):
     try:
-        # Получение информации о городе
-        location_url = f"{BASE_URL}/locations/v1/cities/search"
-        location_params = {"apikey": API_KEY, "q": city}
-        location_response = requests.get(location_url, params=location_params)
-        location_data = location_response.json()
+        # Увеличение времени ожидания до 10 секунд
+        timeout_duration = 10
 
-        if not location_data:
-            raise HTTPException(status_code=404, detail="Город не найден.")
+        # Запрос к API OpenWeatherMap для получения информации о погоде
+        weather_params = {
+            "q": city,
+            "appid": API_KEY,
+            "units": "metric",  # Использование метрических единиц (градусы Цельсия)
+            "lang": "ru"  # Локализация на русский язык
+        }
+        weather_response = requests.get(BASE_URL, params=weather_params, timeout=timeout_duration)
 
-        location_key = location_data[0]["Key"]
+        # Проверка статуса ответа
+        if weather_response.status_code != 200:
+            raise HTTPException(
+                status_code=weather_response.status_code,
+                detail=f"Ошибка запроса погоды: {weather_response.text}"
+            )
 
-        # Получение информации о погоде
-        weather_url = f"{BASE_URL}/currentconditions/v1/{location_key}"
-        weather_params = {"apikey": API_KEY}
-        weather_response = requests.get(weather_url, params=weather_params)
         weather_data = weather_response.json()
 
-        if not weather_data:
+        # Проверка наличия данных о погоде
+        if "weather" not in weather_data or "main" not in weather_data:
             raise HTTPException(status_code=404, detail="Погода не найдена.")
 
+        # Возврат данных
         return {
-            "name": city,
-            "temp": weather_data[0]["Temperature"]["Metric"]["Value"],
-            "description": weather_data[0]["WeatherText"]
+            "name": weather_data["name"],
+            "temp": weather_data["main"]["temp"],
+            "description": weather_data["weather"][0]["description"].capitalize()
         }
 
     except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+        # Логирование ошибки
+        raise HTTPException(status_code=500, detail=f"Сбой: {str(e)}")
