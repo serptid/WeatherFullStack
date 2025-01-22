@@ -5,7 +5,7 @@ import requests
 app = FastAPI()
 
 # Ваш ключ API OpenWeatherMap
-API_KEY = "4f14c3e6f5db34ec1757665f8e40e33c"
+API_KEY = ""
 BASE_URL = "https://api.openweathermap.org/data/2.5/weather"
 
 app.add_middleware(
